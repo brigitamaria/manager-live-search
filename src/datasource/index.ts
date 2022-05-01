@@ -1,4 +1,4 @@
-import { Employee } from "./types";
+import { EmployeeResponse } from "./types";
 import { GET_EMPLOYEES_URL } from "./url";
 
 export const fetchData = async (url: string) => {
@@ -6,8 +6,8 @@ export const fetchData = async (url: string) => {
     return await data.json();
 };
 
-export const getEmployees: () => Promise<Employee[]> = async () => {
-    const { data } = await fetchData(GET_EMPLOYEES_URL);
+export const getEmployees: () => Promise<EmployeeResponse> = async () => {
+    const { data, included } = await fetchData(GET_EMPLOYEES_URL);
 
-    return data;
+    return { data, included };
 };

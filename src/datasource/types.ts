@@ -1,17 +1,16 @@
-import { GENDER, JOB_LEVEL } from "./enums"
+import { DATA_TYPE, GENDER, JOB_LEVEL } from "./enums"
 
 export type EmployeeResponse = {
     data: Employee[]
+    included: Employee[]
 }
 
-export type Employee = {
-    type: string
+export type Employee = Attribute & {
     id: string
     links: {
         self: string
     }
-    attributes: EmployeeAttribute
-    relationships: {
+    relationships?: {
         company: {
             data: RelationshipData
         }
@@ -25,6 +24,14 @@ export type Employee = {
             data: RelationshipData
         }
     }
+}
+
+type Attribute = {
+    type: DATA_TYPE.Accounts,
+    attributes: AccountAttribute
+} | {
+    type: DATA_TYPE.Employees,
+    attributes: EmployeeAttribute
 }
 
 export type EmployeeAttribute = {
@@ -53,4 +60,14 @@ export type EmployeeAttribute = {
 type RelationshipData = {
     type: string
     id: string
+}
+
+export type AccountAttribute = {
+    email: string
+    locale: null
+    timezone: null
+    bouncedAt: null
+    bounceReason: null
+    localeEffective: string
+    timezoneEffective: null
 }

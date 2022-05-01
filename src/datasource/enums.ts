@@ -8,3 +8,8 @@ export enum JOB_LEVEL {
     Executive = "Executive",
     SeniorManager = "Senior Manager"
 }
+
+export enum DATA_TYPE {
+    Employees = "employees",
+    Accounts = "accounts"
+}
