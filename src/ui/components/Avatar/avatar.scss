@@ -1,0 +1,24 @@
+$BG_EXECUTIVE: #74b4cf;
+$BG_MANAGER: #eea66b;
+$BG_SENIOR: #d34f73;
+
+.avatar {
+    margin: 0;
+    background-color: #7A7A7A; //default fallback
+    padding: 12px;
+    border-radius: 8px;
+    color: #fff;
+    width: max-content;
+
+    &--executive {
+        background-color: $BG_EXECUTIVE;
+    }
+
+    &--manager {
+        background-color: $BG_MANAGER;
+    }
+
+    &--senior-manager {
+        background-color: $BG_SENIOR;
+    }
+}
