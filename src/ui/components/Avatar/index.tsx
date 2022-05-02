@@ -4,7 +4,7 @@ import './avatar.scss';
 
 type AvatarProps = {
     initials: string
-    jobLevel: JOB_LEVEL
+    jobLevel: JOB_LEVEL | undefined
 }
 
 const jobLevelClassName = {
@@ -18,7 +18,7 @@ const Avatar = ({
     jobLevel
 }: AvatarProps) => {
     return (
-        <figure className={`avatar avatar--${jobLevelClassName[jobLevel]}`}>
+        <figure className={`avatar ${jobLevel ? `avatar--${jobLevelClassName[jobLevel]}` : ''}`}>
             <figcaption>{initials.toUpperCase()}</figcaption>
         </figure>
     )
