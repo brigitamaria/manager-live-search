@@ -27,6 +27,7 @@ export const mapEmployeesWithAccountEmail = (res: EmployeeResponse) => {
             id: employee.id,
             firstName: attributes.firstName,
             lastName: attributes.lastName,
+            name: attributes.name,
             jobLevel: attributes["Job Level"]
         };
         const accountRelation = employee.relationships?.account.data;
