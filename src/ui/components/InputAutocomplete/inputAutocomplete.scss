@@ -64,7 +64,7 @@ $BG_ACTIVE: #DEF7EA;
                 border-bottom: 1px solid $OUTLINE;
             }
 
-            &:hover {
+            &:hover, &:focus, &[aria-selected="true"] {
                 background-color: $BG_ACTIVE;
 
                 .input-autocomplete__name {
