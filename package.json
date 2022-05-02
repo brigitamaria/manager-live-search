@@ -21,16 +21,16 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:coverage": "npm test -- --coverage --watchAll=false"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{ts, tsx}",
-      "!**/node_modules/**"
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "src/reportWebVitals.ts",
+      "src/index.tsx"
     ],
-    "testMatch": [
-      "**/*.spec.{ts,tsx}"
-    ],
+    "testMatch": ["**/?(*.)spec.[jt]s?(x)"],
     "coverageThreshold": {
       "global": {
         "branches": 90,
