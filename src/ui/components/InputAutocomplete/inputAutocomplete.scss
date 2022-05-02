@@ -4,6 +4,8 @@ $ACTIVE: #30C578;
 $BG_ACTIVE: #DEF7EA;
 
 .input-autocomplete {
+    max-width: 400px;
+
     &__input-wrapper {
         display: flex;
         justify-content: space-between;
@@ -75,6 +77,11 @@ $BG_ACTIVE: #DEF7EA;
         
         p {
             margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
 
         div {
