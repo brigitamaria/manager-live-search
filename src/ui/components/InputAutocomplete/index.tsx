@@ -23,7 +23,7 @@ const InputAutocomplete = ({
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
           if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-            setShowDropdown(false);
+            hideDropdown();
           }
         };
         document.addEventListener('click', handleClickOutside, true);
@@ -41,22 +41,62 @@ const InputAutocomplete = ({
         }));
     }, [data, query]);
 
+    const hideDropdown = () => {
+        setShowDropdown(false);
+
+        const currentActiveOpt = document.querySelector(`.${cn}__opt.active`);
+        currentActiveOpt && currentActiveOpt.classList.remove('active');
+    }
+
     const handleSelect = (employee: MappedEmployeeWithEmail) => {
         setSelectedManager(employee);
         setQuery(employee.name);
-        setShowDropdown(false);
+        hideDropdown();
     }
 
     const handleInputKeyDown = (e: React.KeyboardEvent) => {
+        const currentActiveOpt = document.querySelector(`.${cn}__opt.active`);
         switch (e.key) {
             case "ArrowUp":
                 e.preventDefault();
-                (document.querySelector(`.${cn}__opt:last-of-type`) as HTMLElement)?.focus();
+                if (currentActiveOpt) {
+                    currentActiveOpt.classList.remove('active');
+                    if (currentActiveOpt.previousSibling) {
+                        (currentActiveOpt.previousSibling as HTMLElement).scrollIntoView();
+                        (currentActiveOpt.previousSibling as HTMLElement).classList.add('active');
+                    } else {
+                        document.querySelector(`.${cn}__opt:last-of-type`)?.scrollIntoView();
+                        document.querySelector(`.${cn}__opt:last-of-type`)?.classList.add('active');
+                    }
+                } else {
+                    document.querySelector(`.${cn}__opt:last-of-type`)?.scrollIntoView();
+                    document.querySelector(`.${cn}__opt:last-of-type`)?.classList.add('active');
+                }
                 break;
 
             case "ArrowDown":
                 e.preventDefault();
-                (document.querySelector(`.${cn}__opt`) as HTMLElement)?.focus();
+                if (currentActiveOpt) {
+                    currentActiveOpt.classList.remove('active');
+                    if (currentActiveOpt.nextSibling) {
+                        (currentActiveOpt.nextSibling as HTMLElement).scrollIntoView();
+                        (currentActiveOpt.nextSibling as HTMLElement).classList.add('active');
+                    } else {
+                        document.querySelector(`.${cn}__opt`)?.scrollIntoView();
+                        document.querySelector(`.${cn}__opt`)?.classList.add('active');
+                    }
+                } else {
+                    document.querySelector(`.${cn}__opt`)?.scrollIntoView();
+                    document.querySelector(`.${cn}__opt`)?.classList.add('active');
+                }
+                break;
+
+            case "Enter":
+                if (currentActiveOpt) {
+                    const employeeId = currentActiveOpt.id;
+                    const matchEmployee = filteredResult.find((res) => res.id === employeeId);
+                    matchEmployee && handleSelect(matchEmployee);
+                }
                 break;
 
             default:
@@ -96,6 +136,7 @@ const InputAutocomplete = ({
                     placeholder="Select Manager"
                     value={query}
                     onChange={(e) => {
+                        setShowDropdown(true);
                         setSelectedManager(null);
                         setQuery(e.target.value);
                     }}
@@ -129,6 +170,7 @@ const InputAutocomplete = ({
                             className={`${cn}__opt`}
                             tabIndex={0} 
                             key={id} 
+                            id={id}
                             onClick={() => { handleSelect(datum); }}
                             role="option"
                             aria-selected={selectedManager?.id === id}
