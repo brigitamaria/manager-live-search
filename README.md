@@ -1,6 +1,7 @@
 # Manager Live Search
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project can be accessed [here](https://manager-live-search-nbk2h3i90-brigitamaria.vercel.app/).
 
 ## Project Structure
 
@@ -55,7 +56,7 @@ Each search result contains an avatar which represents the first character of an
 
 Beside the avatar, the search result also displays the name and email of each employee.
 
-Main interactions of the UI cover these cases:
+Main interactions of the UI cover these cases (from Acceptance Criteria):
 - When user clicks into the input field, he/she sees the full list of managers.
 - The list shows up to 2 managers, the rest can be seen by scrolling inside the list.
 - When user starts typing into the input field, matching results appear in the list. 
@@ -66,3 +67,10 @@ Main interactions of the UI cover these cases:
 -  User can navigate the list of managers with arrow up and arrow down keys.
 -  When the input loses focus, the list of available managers disappears and the entered value is being kept.
    -  When the user clicks back into the input field a list of filtered managers by the kept value is shown.
+
+
+Additional interactions (outside Acceptance Criteria):
+- Showing "Zero result match your query. Please try to change your query." message if query does not match
+- Avatar's background color depends on employee's job level
+- When dropdown is shown, close dropdown if user press `Esc`
+- When dropdown reached the bottom on keyboard interaction and user press `ArrowDown`, dropdown displays the first option again and vice versa
