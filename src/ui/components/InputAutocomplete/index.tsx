@@ -26,9 +26,9 @@ const InputAutocomplete = ({
             hideDropdown();
           }
         };
-        document.addEventListener('click', handleClickOutside, true);
+        document.addEventListener('click', handleClickOutside);
         return () => {
-          document.removeEventListener('click', handleClickOutside, true);
+          document.removeEventListener('click', handleClickOutside);
         };
     }, []);
 
@@ -56,47 +56,60 @@ const InputAutocomplete = ({
 
     const handleInputKeyDown = (e: React.KeyboardEvent) => {
         const currentActiveOpt = document.querySelector(`.${cn}__opt.active`);
+
+        const activateElToView = (targetEl: ChildNode | Element | null) => {
+            (targetEl as HTMLElement).scrollIntoView();
+            (targetEl as HTMLElement).classList.add('active');
+        }
+
+        const handleMoveActiveElement = ( 
+            currentActiveEl: Element | null,
+            targetedActiveEl: ChildNode | null | undefined,
+            defaultActiveEl: Element | null
+        ) => {
+            if (currentActiveEl) {
+                currentActiveEl.classList.remove('active');
+                if (targetedActiveEl) {
+                    activateElToView(targetedActiveEl)
+                } else {
+                    activateElToView(defaultActiveEl);
+                }
+            } else {
+                activateElToView(defaultActiveEl)
+            }
+        };
+
         switch (e.key) {
             case "ArrowUp":
                 e.preventDefault();
-                if (currentActiveOpt) {
-                    currentActiveOpt.classList.remove('active');
-                    if (currentActiveOpt.previousSibling) {
-                        (currentActiveOpt.previousSibling as HTMLElement).scrollIntoView();
-                        (currentActiveOpt.previousSibling as HTMLElement).classList.add('active');
-                    } else {
-                        document.querySelector(`.${cn}__opt:last-of-type`)?.scrollIntoView();
-                        document.querySelector(`.${cn}__opt:last-of-type`)?.classList.add('active');
-                    }
-                } else {
-                    document.querySelector(`.${cn}__opt:last-of-type`)?.scrollIntoView();
-                    document.querySelector(`.${cn}__opt:last-of-type`)?.classList.add('active');
-                }
+                handleMoveActiveElement(
+                    currentActiveOpt, 
+                    currentActiveOpt?.previousSibling, 
+                    document.querySelector(`.${cn}__opt:last-of-type`)
+                );
                 break;
 
             case "ArrowDown":
                 e.preventDefault();
-                if (currentActiveOpt) {
-                    currentActiveOpt.classList.remove('active');
-                    if (currentActiveOpt.nextSibling) {
-                        (currentActiveOpt.nextSibling as HTMLElement).scrollIntoView();
-                        (currentActiveOpt.nextSibling as HTMLElement).classList.add('active');
-                    } else {
-                        document.querySelector(`.${cn}__opt`)?.scrollIntoView();
-                        document.querySelector(`.${cn}__opt`)?.classList.add('active');
-                    }
-                } else {
-                    document.querySelector(`.${cn}__opt`)?.scrollIntoView();
-                    document.querySelector(`.${cn}__opt`)?.classList.add('active');
-                }
+                handleMoveActiveElement(
+                    currentActiveOpt, 
+                    currentActiveOpt?.nextSibling, 
+                    document.querySelector(`.${cn}__opt`)
+                );
                 break;
 
             case "Enter":
                 if (currentActiveOpt) {
                     const employeeId = currentActiveOpt.id;
                     const matchEmployee = filteredResult.find((res) => res.id === employeeId);
-                    matchEmployee && handleSelect(matchEmployee);
+                    handleSelect(matchEmployee!);
+                    inputRef.current?.blur();
                 }
+                break;
+
+            case "Escape":
+                inputRef.current?.blur();
+                hideDropdown();
                 break;
 
             default:
@@ -105,18 +118,45 @@ const InputAutocomplete = ({
     };
 
     const handleKeyDown = (employee: MappedEmployeeWithEmail) => (e: React.KeyboardEvent) => {
+        const handleMoveFocusElement = (
+            currentActiveEl: Element | null,
+            targetedActiveEl: ChildNode | null | undefined,
+            defaultFallbackEl: HTMLElement | null
+        ) => {
+            if (currentActiveEl) {
+                if (targetedActiveEl) {
+                    (targetedActiveEl as HTMLElement).focus();
+                } else {
+                    defaultFallbackEl?.focus();
+                }
+            }
+        }
         switch (e.key) {
             case "ArrowUp":
-                document.activeElement?.previousSibling && (document.activeElement?.previousSibling as HTMLElement).focus();
+                e.preventDefault();
+                handleMoveFocusElement(
+                    document.activeElement, 
+                    document.activeElement?.previousSibling,
+                    document.querySelector(`.${cn}__opt:last-of-type`)
+                );
                 break;
 
             case "ArrowDown":
-                document.activeElement?.nextSibling && (document.activeElement?.nextSibling as HTMLElement).focus();
+                e.preventDefault();
+                handleMoveFocusElement(
+                    document.activeElement, 
+                    document.activeElement?.nextSibling,
+                    document.querySelector(`.${cn}__opt`)
+                );
                 break;
 
             case "Enter":
                 e.preventDefault();
                 handleSelect(employee);
+                break;
+
+            case "Escape":
+                hideDropdown();
                 break;
 
             default:
