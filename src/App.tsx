@@ -7,17 +7,32 @@ import { mapEmployeesWithAccountEmail } from './helpers/mapEmployeesWithAccountE
 import './App.scss';
 
 function App() {
-  const [employees, setEmployees] = useState<MappedEmployeeWithEmail[]>([])
+  const [employees, setEmployees] = useState<MappedEmployeeWithEmail[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    getEmployees().then((res) => {
-      setEmployees(mapEmployeesWithAccountEmail(res))
-    });
+    getEmployees()
+      .then((res) => {
+        setLoading(false);
+        setEmployees(mapEmployeesWithAccountEmail(res));
+      })
+      .catch(() => {
+        setLoading(false);
+        setError(true);
+      });
   }, [])
 
   return (
     <div className="App">
-      <InputAutocomplete data={employees} />
+      {loading ? <p>Loading...</p> : (
+        <>
+        {error ? 
+          <p>An Error Occured. Please try again later.</p>
+          : <InputAutocomplete data={employees} />
+        }
+        </>
+      )}
     </div>
   );
 }
