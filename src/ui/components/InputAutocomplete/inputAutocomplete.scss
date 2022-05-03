@@ -61,6 +61,7 @@ $BG_ACTIVE: #DEF7EA;
             height: 64px;
             padding: 16px;
             box-sizing: border-box;
+            cursor: pointer;
 
             &:not(:last-of-type) {
                 border-bottom: 1px solid $OUTLINE;
