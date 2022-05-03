@@ -8,39 +8,9 @@ Object {
       <div
         class="App"
       >
-        <div
-          class="input-autocomplete"
-        >
-          <label
-            for="search"
-          >
-            Select manager using dropdown:
-          </label>
-          <div
-            class="input-autocomplete__input-wrapper"
-          >
-            <input
-              aria-haspopup="listbox"
-              autocomplete="off"
-              id="search"
-              placeholder="Select Manager"
-              type="text"
-              value=""
-            />
-            <img
-              alt=""
-              class="input-autocomplete__chevron down"
-              height="16"
-              src="chevron-down.svg"
-              width="16"
-            />
-          </div>
-          <ul
-            class="input-autocomplete__opts hide"
-            role="listbox"
-            tabindex="-1"
-          />
-        </div>
+        <p>
+          Loading...
+        </p>
       </div>
     </div>
   </body>,
@@ -48,39 +18,9 @@ Object {
     <div
       class="App"
     >
-      <div
-        class="input-autocomplete"
-      >
-        <label
-          for="search"
-        >
-          Select manager using dropdown:
-        </label>
-        <div
-          class="input-autocomplete__input-wrapper"
-        >
-          <input
-            aria-haspopup="listbox"
-            autocomplete="off"
-            id="search"
-            placeholder="Select Manager"
-            type="text"
-            value=""
-          />
-          <img
-            alt=""
-            class="input-autocomplete__chevron down"
-            height="16"
-            src="chevron-down.svg"
-            width="16"
-          />
-        </div>
-        <ul
-          class="input-autocomplete__opts hide"
-          role="listbox"
-          tabindex="-1"
-        />
-      </div>
+      <p>
+        Loading...
+      </p>
     </div>
   </div>,
   "debug": [Function],
